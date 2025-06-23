@@ -75,12 +75,13 @@
     /* ✨ Red block cursor */
     .typed-cursor {
       color: transparent;
-      background-color: #ff5b5b;
-      width: 0.75ch;
-      height: 1.6rem;
+      background-color: #ff5b5b; /* same red as your highlight text */
+      width: 0.65ch;
+      height: 1.1em; /* aligns cleanly with text */
       display: inline-block;
-      vertical-align: bottom;
+      vertical-align: middle;
       animation: blink 1s infinite;
+      margin-left: 1px;
     }
 
     @keyframes blink {
