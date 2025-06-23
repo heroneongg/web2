@@ -2,10 +2,72 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Victor's Minecraft Portfolio</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+    }
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem 2rem;
+      min-height: 100vh;
+    }
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .profile-pic {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+      margin-bottom: 2rem;
+    }
+    .intro h1 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+    .highlight {
+      color: #ff5b5b;
+    }
+    .intro p {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn {
+      background: #ff5b5b;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.2s ease;
+    }
+    .btn:hover {
+      background: #e04848;
+    }
+    #aka {
+      border-right: 2px solid #fff;
+      padding-right: 4px;
+    }
+  </style>
 </head>
 <body>
   <section class="hero">
@@ -22,5 +84,19 @@
       </div>
     </div>
   </section>
+
+  <!-- Typed.js CDN + Config -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <script>
+    const typed = new Typed('#aka', {
+      strings: ['Heroneon_GG', 'Cruz_MC', 'Victor Black', 'Ambi Narayanan'],
+      typeSpeed: 80,
+      backSpeed: 60,
+      backDelay: 1200,
+      loop: true,
+      showCursor: true,
+      cursorChar: '|'
+    });
+  </script>
 </body>
 </html>
