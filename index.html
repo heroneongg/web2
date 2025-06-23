@@ -13,6 +13,7 @@
       background: #0f0f0f;
       color: #fff;
     }
+
     .hero {
       display: flex;
       justify-content: center;
@@ -20,12 +21,14 @@
       padding: 3rem 2rem;
       min-height: 100vh;
     }
+
     .hero-content {
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
     }
+
     .profile-pic {
       width: 200px;
       height: 200px;
@@ -34,23 +37,28 @@
       box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
       margin-bottom: 2rem;
     }
+
     .intro h1 {
       font-size: 2.2rem;
       margin-bottom: 1rem;
     }
+
     .highlight {
       color: #ff5b5b;
     }
+
     .intro p {
       font-size: 1.1rem;
       margin-bottom: 1rem;
     }
+
     .cta-buttons {
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
       justify-content: center;
     }
+
     .btn {
       background: #ff5b5b;
       color: #fff;
@@ -60,11 +68,25 @@
       font-weight: 500;
       transition: background 0.2s ease;
     }
+
     .btn:hover {
       background: #e04848;
     }
+
+    /* Fix the typed cursor */
+    .typed-cursor {
+      color: #ff5b5b;
+      font-weight: bold;
+      font-size: 1.4rem;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
     #aka {
-      border-right: 2px solid #fff;
       padding-right: 4px;
     }
   </style>
@@ -85,7 +107,7 @@
     </div>
   </section>
 
-  <!-- Typed.js CDN + Config -->
+  <!-- Typed.js -->
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
   <script>
     const typed = new Typed('#aka', {
