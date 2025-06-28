@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Auto Skin Thumbnails</title>
+  <title>Victor's Minecraft Skin Gallery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet" />
   <style>
     body {
       background: #0f0f0f;
-      color: white;
+      color: #fff;
       font-family: 'Poppins', sans-serif;
-      text-align: center;
       padding: 2rem;
+      text-align: center;
     }
 
     h1 {
@@ -17,26 +18,36 @@
       margin-bottom: 2rem;
     }
 
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
     .skin-card {
       background: #1a1a1a;
       padding: 1rem;
       border-radius: 12px;
-      display: inline-block;
       box-shadow: 0 0 10px #00000066;
     }
 
-    .preview {
+    .skin-images {
       display: flex;
       justify-content: center;
       gap: 1rem;
       margin-bottom: 1rem;
     }
 
-    canvas {
-      background: #222;
-      border-radius: 8px;
+    .skin-images img {
       width: 128px;
-      height: 128px;
+      border-radius: 6px;
+      background: #222;
+    }
+
+    h3 {
+      margin: 0.5rem 0;
     }
 
     .download-btn {
@@ -47,6 +58,7 @@
       border-radius: 6px;
       font-weight: bold;
       display: inline-block;
+      margin-top: 0.5rem;
     }
 
     .download-btn:hover {
@@ -56,38 +68,49 @@
 </head>
 <body>
 
-  <h1> Heroneon_GG</h1>
+  <h1> Victor's Minecraft Skin Gallery</h1>
 
-  <div class="skin-card">
-    <div class="preview">
-      <canvas id="front"></canvas>
-      <canvas id="back"></canvas>
+  <div class="grid">
+    <!-- Skin 1 -->
+    <div class="skin-card">
+      <div class="skin-images">
+        <img src="https://skinrender.com/render/body/front/8/https://irungabhai.neonindustrics.dpdns.org/skins/heroneongg.png" alt="Front View">
+        <img src="https://skinrender.com/render/body/back/8/https://irungabhai.neonindustrics.dpdns.org/skins/heroneongg.png" alt="Back View">
+      </div>
+      <h3>Heroneon_GG</h3>
+      <a class="download-btn" href="https://irungabhai.neonindustrics.dpdns.org/skins/heroneon_gg.png" download>Download</a>
     </div>
-    <a href="skins/heroneongg.png" class="download-btn" download>Download Skin</a>
+
+    <!-- Skin 2 -->
+    <div class="skin-card">
+      <div class="skin-images">
+        <img src="https://skinrender.com/render/body/front/8/https://irungabhai.neonindustrics.dpdns.org/skins/cruz_mc.png" alt="Front View">
+        <img src="https://skinrender.com/render/body/back/8/https://irungabhai.neonindustrics.dpdns.org/skins/cruz_mc.png" alt="Back View">
+      </div>
+      <h3>Cruz_MC</h3>
+      <a class="download-btn" href="https://irungabhai.neonindustrics.dpdns.org/skins/cruz_mc.png" download>Download</a>
+    </div>
+
+    <!-- Skin 3 -->
+    <div class="skin-card">
+      <div class="skin-images">
+        <img src="https://skinrender.com/render/body/front/8/https://irungabhai.neonindustrics.dpdns.org/skins/victor_black.png" alt="Front View">
+        <img src="https://skinrender.com/render/body/back/8/https://irungabhai.neonindustrics.dpdns.org/skins/victor_black.png" alt="Back View">
+      </div>
+      <h3>Victor Black</h3>
+      <a class="download-btn" href="https://irungabhai.neonindustrics.dpdns.org/skins/victor_black.png" download>Download</a>
+    </div>
+
+    <!-- Skin 4 -->
+    <div class="skin-card">
+      <div class="skin-images">
+        <img src="https://skinrender.com/render/body/front/8/https://irungabhai.neonindustrics.dpdns.org/skins/ambi_narayanan.png" alt="Front View">
+        <img src="https://skinrender.com/render/body/back/8/https://irungabhai.neonindustrics.dpdns.org/skins/ambi_narayanan.png" alt="Back View">
+      </div>
+      <h3>Ambi Narayanan</h3>
+      <a class="download-btn" href="https://irungabhai.neonindustrics.dpdns.org/skins/ambi_narayanan.png" download>Download</a>
+    </div>
   </div>
-
-  <script>
-    const drawFace = (ctx, img, x, y) => {
-      ctx.drawImage(img, x, y, 8, 8, 32, 32, 64, 64);
-    };
-
-    const drawBack = (ctx, img, x, y) => {
-      ctx.save();
-      ctx.scale(-1, 1);
-      ctx.drawImage(img, x, y, 8, 8, -96, 32, 64, 64); // flipped X
-      ctx.restore();
-    };
-
-    const skin = new Image();
-    skin.src = "skins/heroneon_gg.png";
-    skin.onload = () => {
-      const front = document.getElementById("front").getContext("2d");
-      const back = document.getElementById("back").getContext("2d");
-
-      drawFace(front, skin, 8, 8); // front face
-      drawBack(back, skin, 24, 8); // back face (flipped)
-    };
-  </script>
 
 </body>
 </html>
