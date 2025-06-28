@@ -2,41 +2,92 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Test Skin</title>
-  <script src="https://unpkg.com/skinview3d"></script>
+  <title>Auto Skin Thumbnails</title>
   <style>
     body {
       background: #0f0f0f;
       color: white;
-      font-family: sans-serif;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      color: #ff5b5b;
+      margin-bottom: 2rem;
+    }
+
+    .skin-card {
+      background: #1a1a1a;
+      padding: 1rem;
+      border-radius: 12px;
+      display: inline-block;
+      box-shadow: 0 0 10px #00000066;
+    }
+
+    .preview {
       display: flex;
       justify-content: center;
-      align-items: center;
-      height: 100vh;
+      gap: 1rem;
+      margin-bottom: 1rem;
     }
 
     canvas {
-      background: #111;
-      border-radius: 10px;
+      background: #222;
+      border-radius: 8px;
+      width: 128px;
+      height: 128px;
+    }
+
+    .download-btn {
+      background: #ff5b5b;
+      color: white;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .download-btn:hover {
+      background: #e04848;
     }
   </style>
 </head>
 <body>
-  <canvas id="skinCanvas" width="300" height="300"></canvas>
+
+  <h1> Heroneon_GG</h1>
+
+  <div class="skin-card">
+    <div class="preview">
+      <canvas id="front"></canvas>
+      <canvas id="back"></canvas>
+    </div>
+    <a href="skins/heroneongg.png" class="download-btn" download>Download Skin</a>
+  </div>
 
   <script>
-    const viewer = new skinview3d.SkinViewer({
-      canvas: document.getElementById("skinCanvas"),
-      width: 300,
-      height: 300,
-      skin: "skins/heroneongg.png"
-    });
+    const drawFace = (ctx, img, x, y) => {
+      ctx.drawImage(img, x, y, 8, 8, 32, 32, 64, 64);
+    };
 
-    viewer.controls.enableZoom = true;
-    viewer.controls.enableRotate = true;
-    viewer.animation = new skinview3d.RotatingAnimation();
-    viewer.animation.speed = 1;
-    viewer.animation.play();
+    const drawBack = (ctx, img, x, y) => {
+      ctx.save();
+      ctx.scale(-1, 1);
+      ctx.drawImage(img, x, y, 8, 8, -96, 32, 64, 64); // flipped X
+      ctx.restore();
+    };
+
+    const skin = new Image();
+    skin.src = "skins/heroneon_gg.png";
+    skin.onload = () => {
+      const front = document.getElementById("front").getContext("2d");
+      const back = document.getElementById("back").getContext("2d");
+
+      drawFace(front, skin, 8, 8); // front face
+      drawBack(back, skin, 24, 8); // back face (flipped)
+    };
   </script>
+
 </body>
 </html>
