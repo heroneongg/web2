@@ -2,115 +2,53 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Victor's Minecraft Skin Gallery</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet" />
+  <title>Victor's wardoby</title>
   <style>
     body {
       background: #0f0f0f;
-      color: #fff;
+      color: white;
       font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       padding: 2rem;
-      text-align: center;
+    }
+
+    canvas {
+      background: #222;
+      border-radius: 8px;
+      width: 128px;
+      height: 128px;
     }
 
     h1 {
       color: #ff5b5b;
-      margin-bottom: 2rem;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .skin-card {
-      background: #1a1a1a;
-      padding: 1rem;
-      border-radius: 12px;
-      box-shadow: 0 0 10px #00000066;
-    }
-
-    .skin-images {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
       margin-bottom: 1rem;
-    }
-
-    .skin-images img {
-      width: 128px;
-      border-radius: 6px;
-      background: #222;
-    }
-
-    h3 {
-      margin: 0.5rem 0;
-    }
-
-    .download-btn {
-      background: #ff5b5b;
-      color: white;
-      padding: 0.5rem 1rem;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: bold;
-      display: inline-block;
-      margin-top: 0.5rem;
-    }
-
-    .download-btn:hover {
-      background: #e04848;
     }
   </style>
 </head>
 <body>
 
-  <h1> Victor's Minecraft Skin Gallery</h1>
+  <h1> Heroneon_GG </h1>
+  <canvas id="headCanvas" width="128" height="128"></canvas>
 
-  <div class="grid">
-    <!-- Skin 1 -->
-    <div class="skin-card">
-      <div class="skin-images">
-        <img src="https://skinrender.com/render/body/front/8/https://irungabhai.neonindustrics.dpdns.org/skins/heroneongg.png" alt="Front View">
-        <img src="https://skinrender.com/render/body/back/8/https://irungabhai.neonindustrics.dpdns.org/skins/heroneongg.png" alt="Back View">
-      </div>
-      <h3>Heroneon_GG</h3>
-      <a class="download-btn" href="https://irungabhai.neonindustrics.dpdns.org/skins/heroneon_gg.png" download>Download</a>
-    </div>
+  <script>
+    const skinImg = new Image();
+    skinImg.src = "skins/heroneongg.png"; // <-- CHANGE THIS to your skin path
+    skinImg.crossOrigin = "anonymous";
 
-    <!-- Skin 2 -->
-    <div class="skin-card">
-      <div class="skin-images">
-        <img src="https://skinrender.com/render/body/front/8/https://irungabhai.neonindustrics.dpdns.org/skins/cruz_mc.png" alt="Front View">
-        <img src="https://skinrender.com/render/body/back/8/https://irungabhai.neonindustrics.dpdns.org/skins/cruz_mc.png" alt="Back View">
-      </div>
-      <h3>Cruz_MC</h3>
-      <a class="download-btn" href="https://irungabhai.neonindustrics.dpdns.org/skins/cruz_mc.png" download>Download</a>
-    </div>
+    skinImg.onload = () => {
+      const canvas = document.getElementById("headCanvas");
+      const ctx = canvas.getContext("2d");
 
-    <!-- Skin 3 -->
-    <div class="skin-card">
-      <div class="skin-images">
-        <img src="https://skinrender.com/render/body/front/8/https://irungabhai.neonindustrics.dpdns.org/skins/victor_black.png" alt="Front View">
-        <img src="https://skinrender.com/render/body/back/8/https://irungabhai.neonindustrics.dpdns.org/skins/victor_black.png" alt="Back View">
-      </div>
-      <h3>Victor Black</h3>
-      <a class="download-btn" href="https://irungabhai.neonindustrics.dpdns.org/skins/victor_black.png" download>Download</a>
-    </div>
+      // Draw base head (from 8x8 at top-left)
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(skinImg, 8, 8, 8, 8, 0, 0, 128, 128);
 
-    <!-- Skin 4 -->
-    <div class="skin-card">
-      <div class="skin-images">
-        <img src="https://skinrender.com/render/body/front/8/https://irungabhai.neonindustrics.dpdns.org/skins/ambi_narayanan.png" alt="Front View">
-        <img src="https://skinrender.com/render/body/back/8/https://irungabhai.neonindustrics.dpdns.org/skins/ambi_narayanan.png" alt="Back View">
-      </div>
-      <h3>Ambi Narayanan</h3>
-      <a class="download-btn" href="https://irungabhai.neonindustrics.dpdns.org/skins/ambi_narayanan.png" download>Download</a>
-    </div>
-  </div>
+      // Optional: Draw hat/helmet layer (from 40x8)
+      ctx.drawImage(skinImg, 40, 8, 8, 8, 0, 0, 128, 128);
+    };
+  </script>
 
 </body>
 </html>
