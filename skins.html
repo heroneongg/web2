@@ -2,52 +2,155 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Victor's wardoby</title>
+  <title>Skin Gallery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet" />
   <style>
     body {
       background: #0f0f0f;
-      color: white;
+      color: #fff;
       font-family: 'Poppins', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       padding: 2rem;
-    }
-
-    canvas {
-      background: #222;
-      border-radius: 8px;
-      width: 128px;
-      height: 128px;
+      text-align: center;
     }
 
     h1 {
       color: #ff5b5b;
       margin-bottom: 1rem;
     }
+
+    input[type="text"] {
+      padding: 0.5rem;
+      width: 300px;
+      max-width: 90%;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 0 10px #00000033;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    canvas {
+      width: 96px;
+      height: 96px;
+      background: #222;
+      border-radius: 8px;
+    }
+
+    .name {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #ccc;
+      word-wrap: break-word;
+    }
+
+    .upload-area {
+      margin: 2rem 0;
+    }
+
+    input[type="file"] {
+      margin-top: 0.5rem;
+      color: white;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
   </style>
 </head>
 <body>
 
-  <h1> Heroneon_GG </h1>
-  <canvas id="headCanvas" width="128" height="128"></canvas>
+  <h1>🧠 Victor’s Skin Hub</h1>
+  <input type="text" id="search" placeholder="Search skins...">
+
+  <div class="upload-area">
+    <label>Upload a skin:</label><br>
+    <input type="file" id="skinUpload" accept=".png">
+  </div>
+
+  <div class="grid" id="skinGrid"></div>
 
   <script>
-    const skinImg = new Image();
-    skinImg.src = "skins/heroneongg.png"; // <-- CHANGE THIS to your skin path
-    skinImg.crossOrigin = "anonymous";
+    const skinList = [
+      "heroneon_gg.png",
+      "cruz_mc.png",
+      "victor_black.png",
+      "ambi_narayanan.png"
+    ];
 
-    skinImg.onload = () => {
-      const canvas = document.getElementById("headCanvas");
+    const skinGrid = document.getElementById("skinGrid");
+    const searchInput = document.getElementById("search");
+
+    function createSkinCard(skinName, skinPath) {
+      const card = document.createElement("a");
+      card.className = "card";
+      card.href = skinPath;
+      card.download = "";
+
+      const canvas = document.createElement("canvas");
+      canvas.width = 128;
+      canvas.height = 128;
+
+      const nameTag = document.createElement("div");
+      nameTag.className = "name";
+      nameTag.textContent = skinName.replace(".png", "").replaceAll("_", " ");
+
+      card.appendChild(canvas);
+      card.appendChild(nameTag);
+      skinGrid.appendChild(card);
+
       const ctx = canvas.getContext("2d");
+      const img = new Image();
+      img.src = skinPath;
+      img.onload = () => {
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(img, 8, 8, 8, 8, 0, 0, 128, 128); // head
+        ctx.drawImage(img, 40, 8, 8, 8, 0, 0, 128, 128); // hat layer
+      };
+    }
 
-      // Draw base head (from 8x8 at top-left)
-      ctx.imageSmoothingEnabled = false;
-      ctx.drawImage(skinImg, 8, 8, 8, 8, 0, 0, 128, 128);
+    skinList.forEach(skin => {
+      const fullPath = `skins/${skin}`;
+      createSkinCard(skin, fullPath);
+    });
 
-      // Optional: Draw hat/helmet layer (from 40x8)
-      ctx.drawImage(skinImg, 40, 8, 8, 8, 0, 0, 128, 128);
-    };
+    // Upload skin from browser
+    document.getElementById("skinUpload").addEventListener("change", e => {
+      const file = e.target.files[0];
+      if (!file || !file.name.endsWith(".png")) return;
+
+      const url = URL.createObjectURL(file);
+      createSkinCard(file.name, url);
+    });
+
+    // Live search filter
+    searchInput.addEventListener("input", () => {
+      const query = searchInput.value.toLowerCase();
+      const cards = document.querySelectorAll(".card");
+      cards.forEach(card => {
+        const name = card.querySelector(".name").textContent.toLowerCase();
+        card.style.display = name.includes(query) ? "" : "none";
+      });
+    });
   </script>
 
 </body>
