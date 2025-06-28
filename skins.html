@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Skin Grid</title>
+  <title>Victor's Skins</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet" />
   <style>
     body {
@@ -18,22 +18,12 @@
       margin-bottom: 1rem;
     }
 
-    input[type="text"] {
-      padding: 0.5rem;
-      width: 300px;
-      max-width: 90%;
-      font-size: 1rem;
-      border-radius: 8px;
-      border: none;
-      margin-bottom: 2rem;
-    }
-
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 1.5rem;
       max-width: 1000px;
-      margin: 0 auto;
+      margin: 2rem auto;
     }
 
     .card {
@@ -62,110 +52,87 @@
       word-wrap: break-word;
     }
 
-    .upload-area {
-      margin: 2rem 0 3rem;
+    .upload-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #ff5b5b;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
     }
 
     input[type="file"] {
-      margin-top: 0.5rem;
-      color: white;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
+      display: none;
     }
   </style>
 </head>
 <body>
 
-  <h1> Victor's Skinsets</h1>
-  <input type="text" id="search" placeholder="Search skins...">
+  <h1> Victor's Minecraft Skins</h1>
 
-  <div class="upload-area">
-    <label>Upload a skin to preview (not saved):</label><br>
-    <input type="file" id="skinUpload" accept=".png">
-    <br><br>
-    <canvas id="previewCanvas" width="128" height="128"></canvas>
-  </div>
+  <button class="upload-btn" onclick="document.getElementById('skinFile').click()">+ Upload</button>
+  <input type="file" id="skinFile" accept=".png">
 
   <div class="grid" id="skinGrid"></div>
 
   <script>
-    const skinList = [
-      "heroneon_gg.png",
-      "cruz_mc.png",
-      "victor_black.png",
-      "ambi_narayanan.png"
-    ];
-
     const skinGrid = document.getElementById("skinGrid");
-    const searchInput = document.getElementById("search");
+    let storedSkins = JSON.parse(localStorage.getItem("mySkins")) || [];
 
-    function createSkinCard(skinName, skinPath) {
-      const card = document.createElement("a");
-      card.className = "card";
-      card.href = skinPath;
-      card.download = "";
+    function saveSkinsToStorage() {
+      localStorage.setItem("mySkins", JSON.stringify(storedSkins));
+    }
 
-      const canvas = document.createElement("canvas");
-      canvas.width = 128;
-      canvas.height = 128;
-
-      const nameTag = document.createElement("div");
-      nameTag.className = "name";
-      nameTag.textContent = skinName.replace(".png", "").replaceAll("_", " ");
-
-      card.appendChild(canvas);
-      card.appendChild(nameTag);
-      skinGrid.appendChild(card);
-
+    function drawHead(canvas, skinUrl) {
       const ctx = canvas.getContext("2d");
       const img = new Image();
-      img.src = skinPath;
+      img.src = skinUrl;
       img.onload = () => {
         ctx.imageSmoothingEnabled = false;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(img, 8, 8, 8, 8, 0, 0, 128, 128); // head
-        ctx.drawImage(img, 40, 8, 8, 8, 0, 0, 128, 128); // hat
+        ctx.drawImage(img, 40, 8, 8, 8, 0, 0, 128, 128); // overlay
       };
     }
 
-    // Load actual skin list
-    skinList.forEach(skin => {
-      const fullPath = `skins/${skin}`;
-      createSkinCard(skin, fullPath);
-    });
+    function addSkin(name, base64) {
+      const canvas = document.createElement("canvas");
+      canvas.width = 128;
+      canvas.height = 128;
 
-    // Preview uploaded skin (not saved)
-    const previewCanvas = document.getElementById("previewCanvas");
-    const previewCtx = previewCanvas.getContext("2d");
+      const card = document.createElement("div");
+      card.className = "card";
+      const label = document.createElement("div");
+      label.className = "name";
+      label.innerText = name;
 
-    document.getElementById("skinUpload").addEventListener("change", e => {
+      drawHead(canvas, base64);
+      card.appendChild(canvas);
+      card.appendChild(label);
+      skinGrid.appendChild(card);
+    }
+
+    document.getElementById("skinFile").addEventListener("change", e => {
       const file = e.target.files[0];
       if (!file || !file.name.endsWith(".png")) return;
 
-      const url = URL.createObjectURL(file);
-      const img = new Image();
-      img.src = url;
-      img.onload = () => {
-        previewCtx.imageSmoothingEnabled = false;
-        previewCtx.clearRect(0, 0, 128, 128);
-        previewCtx.drawImage(img, 8, 8, 8, 8, 0, 0, 128, 128);
-        previewCtx.drawImage(img, 40, 8, 8, 8, 0, 0, 128, 128);
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64 = reader.result;
+        const cleanName = file.name.replace('.png', '').replace(/_/g, ' ');
+        storedSkins.push({ name: cleanName, src: base64 });
+        saveSkinsToStorage();
+        addSkin(cleanName, base64);
       };
+      reader.readAsDataURL(file);
     });
 
-    // Live search
-    searchInput.addEventListener("input", () => {
-      const query = searchInput.value.toLowerCase();
-      const cards = document.querySelectorAll(".card");
-      cards.forEach(card => {
-        const name = card.querySelector(".name").textContent.toLowerCase();
-        card.style.display = name.includes(query) ? "" : "none";
-      });
-    });
+    // Load existing
+    storedSkins.forEach(s => addSkin(s.name, s.src));
   </script>
-
 </body>
 </html>
