@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Skin Gallery</title>
+  <title>Skin Grid</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet" />
   <style>
     body {
@@ -63,7 +63,7 @@
     }
 
     .upload-area {
-      margin: 2rem 0;
+      margin: 2rem 0 3rem;
     }
 
     input[type="file"] {
@@ -79,12 +79,14 @@
 </head>
 <body>
 
-  <h1>🧠 Victor’s Skin Hub</h1>
+  <h1> Victor's Skinsets</h1>
   <input type="text" id="search" placeholder="Search skins...">
 
   <div class="upload-area">
-    <label>Upload a skin:</label><br>
+    <label>Upload a skin to preview (not saved):</label><br>
     <input type="file" id="skinUpload" accept=".png">
+    <br><br>
+    <canvas id="previewCanvas" width="128" height="128"></canvas>
   </div>
 
   <div class="grid" id="skinGrid"></div>
@@ -123,26 +125,38 @@
       img.src = skinPath;
       img.onload = () => {
         ctx.imageSmoothingEnabled = false;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(img, 8, 8, 8, 8, 0, 0, 128, 128); // head
-        ctx.drawImage(img, 40, 8, 8, 8, 0, 0, 128, 128); // hat layer
+        ctx.drawImage(img, 40, 8, 8, 8, 0, 0, 128, 128); // hat
       };
     }
 
+    // Load actual skin list
     skinList.forEach(skin => {
       const fullPath = `skins/${skin}`;
       createSkinCard(skin, fullPath);
     });
 
-    // Upload skin from browser
+    // Preview uploaded skin (not saved)
+    const previewCanvas = document.getElementById("previewCanvas");
+    const previewCtx = previewCanvas.getContext("2d");
+
     document.getElementById("skinUpload").addEventListener("change", e => {
       const file = e.target.files[0];
       if (!file || !file.name.endsWith(".png")) return;
 
       const url = URL.createObjectURL(file);
-      createSkinCard(file.name, url);
+      const img = new Image();
+      img.src = url;
+      img.onload = () => {
+        previewCtx.imageSmoothingEnabled = false;
+        previewCtx.clearRect(0, 0, 128, 128);
+        previewCtx.drawImage(img, 8, 8, 8, 8, 0, 0, 128, 128);
+        previewCtx.drawImage(img, 40, 8, 8, 8, 0, 0, 128, 128);
+      };
     });
 
-    // Live search filter
+    // Live search
     searchInput.addEventListener("input", () => {
       const query = searchInput.value.toLowerCase();
       const cards = document.querySelectorAll(".card");
