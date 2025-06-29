@@ -2,137 +2,99 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Victor's Skins</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet" />
   <style>
     body {
-      background: #0f0f0f;
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
+      background: #111;
+      color: white;
+      font-family: sans-serif;
       padding: 2rem;
-      text-align: center;
-    }
-
-    h1 {
-      color: #ff5b5b;
-      margin-bottom: 1rem;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 1.5rem;
-      max-width: 1000px;
-      margin: 2rem auto;
     }
 
     .card {
       background: #1a1a1a;
       border-radius: 12px;
       padding: 1rem;
-      box-shadow: 0 0 10px #00000033;
-      transition: transform 0.2s ease;
+      text-align: center;
     }
 
-    .card:hover {
-      transform: scale(1.05);
-    }
-
-    canvas {
+    .head {
       width: 96px;
       height: 96px;
-      background: #222;
-      border-radius: 8px;
+      image-rendering: pixelated;
+      margin-bottom: 0.5rem;
     }
 
-    .name {
-      margin-top: 0.5rem;
+    .filename {
       font-size: 0.9rem;
-      color: #ccc;
-      word-wrap: break-word;
+      word-break: break-word;
+      margin-bottom: 0.5rem;
     }
 
-    .upload-btn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #ff5b5b;
+    .download-btn {
+      background: #e74c3c;
       color: white;
-      padding: 10px 20px;
       border: none;
-      border-radius: 8px;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
       cursor: pointer;
-      font-size: 0.9rem;
-    }
-
-    input[type="file"] {
-      display: none;
     }
   </style>
 </head>
 <body>
 
-  <h1>🎮 Victor's Minecraft Skins</h1>
-
-  <button class="upload-btn" onclick="document.getElementById('skinFile').click()">+ Upload</button>
-  <input type="file" id="skinFile" accept=".png">
-
+  <h1> Victor's Minecraft Skins</h1>
   <div class="grid" id="skinGrid"></div>
 
   <script>
-    const skinGrid = document.getElementById("skinGrid");
-    let storedSkins = JSON.parse(localStorage.getItem("mySkins")) || [];
+    const folderPath = 'skins/';
+    const skinFiles = [
+      // just add your skin filenames here (auto-listing not possible with pure HTML/JS alone)
+      "heroneongg.png",
+      "cruz_mc.png",
+      "mrscruz.png"
+      "tharun.png",
+      "aadhu.png",
+      "ggbutgirl.png",
+      "girlskin1.png",
+      "victorblack.png"
+    ];
 
-    function saveSkinsToStorage() {
-      localStorage.setItem("mySkins", JSON.stringify(storedSkins));
-    }
+    const grid = document.getElementById('skinGrid');
 
-    function drawHead(canvas, skinUrl) {
-      const ctx = canvas.getContext("2d");
-      const img = new Image();
-      img.src = skinUrl;
-      img.onload = () => {
-        ctx.imageSmoothingEnabled = false;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 8, 8, 8, 8, 0, 0, 128, 128); // head
-        ctx.drawImage(img, 40, 8, 8, 8, 0, 0, 128, 128); // overlay
-      };
-    }
+    skinFiles.forEach(file => {
+      const fileName = file.replace('.png', '');
 
-    function addSkin(name, base64) {
-      const canvas = document.createElement("canvas");
-      canvas.width = 128;
-      canvas.height = 128;
+      const card = document.createElement('div');
+      card.className = 'card';
 
-      const card = document.createElement("div");
-      card.className = "card";
-      const label = document.createElement("div");
-      label.className = "name";
-      label.innerText = name;
+      const head = document.createElement('img');
+      head.src = `https://visage.surgeplay.com/head/256/${folderPath + file}`;
+      head.alt = fileName;
+      head.className = 'head';
 
-      drawHead(canvas, base64);
-      card.appendChild(canvas);
-      card.appendChild(label);
-      skinGrid.appendChild(card);
-    }
+      const nameTag = document.createElement('div');
+      nameTag.className = 'filename';
+      nameTag.textContent = fileName;
 
-    document.getElementById("skinFile").addEventListener("change", e => {
-      const file = e.target.files[0];
-      if (!file || !file.name.endsWith(".png")) return;
+      const btn = document.createElement('a');
+      btn.href = folderPath + file;
+      btn.download = file;
+      btn.className = 'download-btn';
+      btn.textContent = 'Download';
 
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64 = reader.result;
-        const cleanName = file.name.replace('.png', '').replace(/_/g, ' ');
-        storedSkins.push({ name: cleanName, src: base64 });
-        saveSkinsToStorage();
-        addSkin(cleanName, base64);
-      };
-      reader.readAsDataURL(file);
+      card.appendChild(head);
+      card.appendChild(nameTag);
+      card.appendChild(btn);
+      grid.appendChild(card);
     });
-
-    // Load existing
-    storedSkins.forEach(s => addSkin(s.name, s.src));
   </script>
 </body>
 </html>
