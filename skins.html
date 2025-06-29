@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Victor's Skins</title>
+  <style>
+    body {
+      background: #111;
+      color: white;
+      font-family: sans-serif;
+      padding: 2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .head {
+      width: 96px;
+      height: 96px;
+      image-rendering: pixelated;
+      margin-bottom: 0.5rem;
+    }
+
+    .filename {
+      font-size: 0.9rem;
+      word-break: break-word;
+      margin-bottom: 0.5rem;
+    }
+
+    .download-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1> Victor's Minecraft Skins</h1>
+  <div class="grid" id="skinGrid"></div>
+
+  <script>
+    const folderPath = 'skins/';
+    const skinFiles = [
+      // just add your skin filenames here (auto-listing not possible with pure HTML/JS alone)
+      "heroneongg.png",
+      "cruz_mc.png",
+      "mrscruz.png"
+      "tharun.png",
+      "aadhu.png",
+      "ggbutgirl.png",
+      "girlskin1.png",
+      "victorblack.png"
+    ];
+
+    const grid = document.getElementById('skinGrid');
+
+    skinFiles.forEach(file => {
+      const fileName = file.replace('.png', '');
+
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const head = document.createElement('img');
+      head.src = `https://visage.surgeplay.com/head/256/${folderPath + file}`;
+      head.alt = fileName;
+      head.className = 'head';
+
+      const nameTag = document.createElement('div');
+      nameTag.className = 'filename';
+      nameTag.textContent = fileName;
+
+      const btn = document.createElement('a');
+      btn.href = folderPath + file;
+      btn.download = file;
+      btn.className = 'download-btn';
+      btn.textContent = 'Download';
+
+      card.appendChild(head);
+      card.appendChild(nameTag);
+      card.appendChild(btn);
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>
